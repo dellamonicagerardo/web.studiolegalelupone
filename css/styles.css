@@ -66,19 +66,19 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; }
   position: sticky;
   top: 0;
   z-index: 30;
-  padding: 16px var(--gutter) 0;
+  padding: 8px 10px 0;
   margin-bottom: -58px;
   pointer-events: none;
 }
 
 .nav {
-  width: calc(100% - 36px);
+  width: 100%;
 }
 
 .nav {
   pointer-events: auto;
-  max-width: var(--max);
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   min-height: var(--header);
   background: var(--white);
   border-radius: var(--nav);
@@ -860,6 +860,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); }
 .dock.is-on {
   transform: translate(-50%, 0);
   pointer-events: auto;
+}
+
+body:not(:has(.hero)):has(.dock.is-on) {
+  padding-bottom: 132px;
 }
 
 .dock-person {

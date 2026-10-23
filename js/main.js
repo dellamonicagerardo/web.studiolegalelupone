@@ -201,10 +201,11 @@
     });
   }
   var dock = document.querySelector(".dock");
-  var contact = document.querySelector("#contatti");
+  var contact = document.querySelector("#contatti, #richiesta");
   var footer = document.querySelector(".footer");
   var lastY = window.scrollY;
   var dockOn = false;
+  var dockImmediate = dock && !document.querySelector(".hero");
 
   function lowerBusy(el) {
     if (!el) return false;
@@ -222,7 +223,9 @@
       topbar.classList.toggle("is-away", !menuOpen && delta > 0 && y > 140);
     }
     if (dock) {
-      if (menuOpen || y < 320 || lowerBusy(contact) || lowerBusy(footer)) dockOn = false;
+      var blocked = menuOpen || lowerBusy(contact);
+      if (dockImmediate) dockOn = !blocked;
+      else if (blocked || y < 320 || lowerBusy(footer)) dockOn = false;
       else if (delta > 8) dockOn = true;
       else if (delta < -8) dockOn = false;
       dock.classList.toggle("is-on", dockOn);
@@ -233,7 +236,10 @@
     lastY = y;
   }
 
-  if (topbar || dock) window.addEventListener("scroll", onScroll, { passive: true });
+  if (topbar || dock) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
   var mesi = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
 
@@ -312,6 +318,12 @@
         if (pagina) pagina.innerHTML = "<h1>Articolo non disponibile.</h1>";
       });
   }
+
+  var parametri = new URLSearchParams(window.location.search);
+  var materiaIniziale = document.querySelector("#materia");
+  var avvocatoIniziale = document.querySelector("#destinatario");
+  if (avvocatoIniziale && parametri.get("destinatario")) avvocatoIniziale.value = parametri.get("destinatario");
+  if (materiaIniziale && parametri.get("materia")) materiaIniziale.value = parametri.get("materia");
 
   document.querySelectorAll("[data-area], [data-lawyer]").forEach(function (link) {
     link.addEventListener("click", function () {

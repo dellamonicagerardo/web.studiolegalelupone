@@ -98,6 +98,26 @@ def footer(prefix, current):
     """ % ("\n          ".join(links), prefix)
 
 
+def dock(prefix):
+    luigi = "https://wa.me/393206160597?text=Buongiorno%2C%20vorrei%20un%20appuntamento%20con%20l%27avv.%20Luigi%20Lupone."
+    giuseppe = "https://wa.me/393206160597?text=Buongiorno%2C%20vorrei%20un%20appuntamento%20con%20l%27avv.%20Giuseppe%20Lupone."
+    return """
+  <aside class="dock" id="dock" aria-label="Contatto rapido" inert>
+    <a class="dock-person" href="%s" target="_blank" rel="noopener">
+      <img src="%sassets/luigi.jpg" alt="">
+      <strong>Luigi Lupone</strong>
+      <small>Civile</small>
+      <span class="dock-cta">Contatti</span>
+    </a>
+    <a class="dock-person" href="%s" target="_blank" rel="noopener">
+      <img src="%sassets/giuseppe.jpg" alt="">
+      <strong>Giuseppe Lupone</strong>
+      <small>Penale</small>
+      <span class="dock-cta">Contatti</span>
+    </a>
+  </aside>""" % (luigi, prefix, giuseppe, prefix)
+
+
 def meta(title, description, path, image):
     url = SITE + path
     return """
@@ -195,6 +215,7 @@ def pagina_articolo(item):
     </article>
   </main>
 %s
+%s
   <script src="../js/main.js"></script>
 </body>
 </html>
@@ -212,6 +233,7 @@ def pagina_articolo(item):
         esc(item["descrizione"]),
         paragrafi(item.get("testo") or ""),
         footer("../", ""),
+        dock("../"),
     )
 
 
@@ -271,6 +293,7 @@ def pagina_notizie(articoli):
     </ul>
   </main>
 %s
+%s
   <script src="js/main.js"></script>
 </body>
 </html>
@@ -281,6 +304,7 @@ def pagina_notizie(articoli):
         nav("", "notizie"),
         cards,
         footer("", "notizie"),
+        dock(""),
     )
 
 
